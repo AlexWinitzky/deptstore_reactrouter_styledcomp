@@ -1,7 +1,7 @@
 12.times do
   Department.create(
     name: Faker::Commerce.department,
-    image: Faker::LoremPixel.image,
+    image: '',
   )
 end
 Department.all.each do 
@@ -11,7 +11,7 @@ Department.all.each do
       name: Faker::Commerce.product_name,
       description: Faker::Lorem.paragraph_by_chars(256, false),
       price: Faker::Commerce.price(range = 0..1000.00, as_string = false),
-      image: Faker::LoremPixel.image,
+      image: '',
       department_id: department_id,
       )
   end

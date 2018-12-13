@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { Link,} from 'react-router-dom';
-import { Button, Container } from 'semantic-ui-react';
+import { Link, } from 'react-router-dom';
+import { Button, Container, Image } from 'semantic-ui-react';
 
 class Item extends React.Component {
   state = { item: {} }
@@ -9,12 +9,12 @@ class Item extends React.Component {
   componentDidMount() {
     const { match: { params: { id, department_id } } } = this.props
     axios.get(`/api/departments/${department_id}/items/${id}`)
-    .then( res => {
-      this.setState({ item: res.data })
-    })
-    .catch( err => {
-      console.log( err.response )
-    })
+      .then(res => {
+        this.setState({ item: res.data })
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
   }
 
   handleDelete = () => {
@@ -27,20 +27,20 @@ class Item extends React.Component {
 
   render() {
     const { match: { params: { id, department_id } } } = this.props
-    const { name, description, price, image } = this.state.item
+    const { name, description, price } = this.state.item
     return (
       <Container>
-      <h1>{name}</h1>
-      <img src={image} alt="Product"/>
-      <h2>${price}</h2>
-      <h3>Product Description:</h3>
-      <p>{description}</p>
-      <Link to={`/departments/${department_id}/items/${id}/edit`}>
-      <Button>Update Item</Button>
-      </Link>
-      <Button onClick={this.handleDelete}>Delete Item</Button>
+        <h1>{name}</h1>
+        <Image src={"https://loremflickr.com/400/400/products?randomizer=" + Math.random()} alt="Product" />
+        <h2>${price}</h2>
+        <h3>Product Description:</h3>
+        <p>{description}</p>
+        <Link to={`/departments/${department_id}/items/${id}/edit`}>
+          <Button>Update Item</Button>
+        </Link>
+        <Button onClick={this.handleDelete}>Delete Item</Button>
       </Container>
-    ) 
+    )
   }
 }
 

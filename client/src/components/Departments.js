@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 
 class Departments extends React.Component {
-  state = { departments: [] }
+  state = { departments: [], images: [] }
 
   componentDidMount() {
     axios.get("api/departments")
@@ -21,30 +21,34 @@ class Departments extends React.Component {
   showDepts = () => {
     return this.state.departments.map(d => (
       <Link to={`departments/${d.id}`}>
-        <CardStyles>
-          <Card.Header
-            style={{
-              fontSize: "20px",
-              height: '40px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              }}>
-            {d.name}
-          </Card.Header>
-          <Card.Content>
-            <Image
-              style ={{
-                height: '100px',
-                width: '100px',
+        <div style={{ padding: '20px', border: '2px solid black' }}>
+          <CardStyles>
+            <Card.Header
+              style={{
+                fontSize: "20px",
+                height: '40px',
                 display: 'flex',
                 justifyContent: 'center',
-                alignContent: 'center',
-              }}
-              src={d.image}
-              alt="Department"/>
-          </Card.Content>
-        </CardStyles>
+                alignItems: 'center',
+              }}>
+              {d.name}
+            </Card.Header>
+            <Card.Content
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                }}>
+              <Image
+                style={{
+                  height: '120px',
+                  width: '160px',
+                }}
+                src={"https://loremflickr.com/400/400/commerce?randomizer=" + Math.random()}
+                alt="Department" />
+            </Card.Content>
+          </CardStyles>
+        </div>
       </Link>
     ))
   }
@@ -60,7 +64,7 @@ class Departments extends React.Component {
           </ButtonStyle>
           <Grid>
             <Grid.Row>
-              <Grid.Column relaxed columns={2}>
+              <Grid.Column relaxed columns={4}>
                 <CardGroup>
                   {this.showDepts()}
                 </CardGroup>
@@ -76,21 +80,21 @@ class Departments extends React.Component {
 const CardStyles = styled(Card)`
   height: 200px;
   width: 180px;
-`;
+`
 
 const CardGroup = styled(Card.Group)`
-  padding: 20px;
-
+  padding: 40px;
+  display: flex;
+  justify-content: center;
 `
 const Page = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 60px;
 `
 const ButtonStyle = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
 `
-
 export default Departments
