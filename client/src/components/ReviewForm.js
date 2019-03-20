@@ -87,11 +87,10 @@ class ReviewForm extends React.Component {
   }
 
   render() {
-    // const { match: { params: { id } } } = this.props
     const { title, body, author, rating } = this.state
     return (
-      <div>
-        {/* {id ? <h1>Edit Review</h1> : null} */}
+      <div style={{marginLeft: '100px'}}>
+        {!this.props.add ? <h1>Edit Review</h1> : null}
         <Form style={{ marginTop: '10px' }} onSubmit={this.handleSubmit}>
           <Form.Group width="equal">
             <Rating
@@ -134,7 +133,7 @@ class ReviewForm extends React.Component {
               control={this.dropdownImageSelect}
             />
           </Form.Group>
-          <Form.Button>Submit</Form.Button>
+          <Form.Button color='green'>Submit</Form.Button>
         </Form>
       </div>
     )

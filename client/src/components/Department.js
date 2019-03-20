@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button, Container, Card, Image, Grid } from 'semantic-ui-react';
+import { Button, Container, Card, Image, Icon, } from 'semantic-ui-react';
 
 
 class Department extends React.Component {
@@ -25,23 +25,24 @@ class Department extends React.Component {
 
   listItems = () => {
     const { id, } = this.props.match.params
-    return this.state.items.map( i => (
+    return this.state.items.map(i => (
       <div style={{ marginTop: '40px', padding: '20px', border: '1px solid black' }}>
         <Link to={`/departments/${id}/items/${i.id}`}>
-          <Card style={{ height: "120px", width: '200px' }}>
-            <p>{i.name}</p>
+          <Card style={{ height: "300px", width: '300px', textAlign: 'center' }}>
+            <h3>{i.name}</h3>
             <Card.Description>${i.price}</Card.Description>
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignContent: 'center',
+                marginTop: '20px',
               }}
             >
               <Image
                 style={{
-                  height: '60px',
-                  width: '60px',
+                  height: '200px',
+                  width: '200px',
                 }}
                 src={"https://loremflickr.com/400/400/products?" + Math.random()} alt="Product" />
             </div>
@@ -65,25 +66,34 @@ class Department extends React.Component {
       <Container style={{ paddingTop: '20px', marginBottom: '40px' }}>
         <h1>{name}</h1>
         <Link to={'/departments'}>
-        <Button style={{marginBottom: '20px'}}>Go Back</Button>
+          <Button color="black" style={{ marginBottom: '20px' }}>
+            <Icon name='arrow alternate circle left outline' />
+            Go Back
+          </Button>
         </Link>
         <div>
           <Link to={`/departments/${id}/edit`}>
-            <Button>Update Department</Button>
+            <Button inverted color='blue'>
+              <Icon name='pencil' />
+              {' '}
+              Update Department
+              </Button>
           </Link>
-          <Button onClick={this.handleDelete}>Remove Department</Button>
+          <Button inverted onClick={this.handleDelete} color='red'>
+            <Icon name='trash' />
+            {' '}
+            Remove Department
+            </Button>
           <Link to={`/departments/${id}/items/new`}>
-            <Button>Add an Item</Button>
+            <Button inverted color='green'>
+              <Icon name='add' />
+              {' '}
+              Add an Item
+            </Button>
           </Link>
-          <Grid>
-            <Grid.Row>
-            <Grid.Column relaxed columns={4}>
-              <Card.Group>
-                  {this.listItems()}
-              </Card.Group>
-            </Grid.Column>
-            </Grid.Row>
-          </Grid>
+          <Card.Group itemsPerRow={3}>
+            {this.listItems()}
+          </Card.Group>
         </div>
       </Container>
     )

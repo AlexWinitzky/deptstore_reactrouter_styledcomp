@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, } from 'react-router-dom';
-import { Button, Container, Image } from 'semantic-ui-react';
+import { Button, Container, Image, Icon, } from 'semantic-ui-react';
 import Reviews from './Reviews';
 
 class Item extends React.Component {
@@ -30,9 +30,12 @@ class Item extends React.Component {
     const { match: { params: { id, department_id } } } = this.props
     const { name, description, price } = this.state.item
     return (
-      <Container style={{marginBottom: '40px'}}>
+      <Container style={{ marginBottom: '40px' }}>
         <Link to={`/departments/${department_id}`}>
-          <Button>Go Back</Button>
+          <Button color='black'>
+            <Icon name='arrow alternate circle left outline' />
+            Go Back
+            </Button>
         </Link>
         <h1>{name}</h1>
         <Image src={"https://loremflickr.com/400/400/products?" + Math.random()} alt="Product" />
@@ -40,10 +43,16 @@ class Item extends React.Component {
         <h3>Product Description:</h3>
         <p>{description}</p>
         <Link to={`/departments/${department_id}/items/${id}/edit`}>
-          <Button>Update Item</Button>
+          <Button inverted color="blue">
+            <Icon name='pencil' />
+            Update Item
+            </Button>
         </Link>
-        <Button onClick={this.handleDelete}>Delete Item</Button>
-        <Reviews id={id}/>
+        <Button inverted color='red' onClick={this.handleDelete}>
+          <Icon name='trash' />
+          Delete Item
+        </Button>
+        <Reviews id={id} />
       </Container>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
-import { Icon, Button, Card, Rating, Image } from 'semantic-ui-react';
+import { Icon, Button, Card, Rating, Image, } from 'semantic-ui-react';
 import ReviewForm from './ReviewForm';
 
 
@@ -87,10 +87,13 @@ class Reviews extends React.Component {
       <div style={{ marginTop: '30px' }}>
         <hr />
         <h1>Product Reviews</h1>
-        <Button onClick={this.showForm}>Write a review</Button>
+        <Button color='teal' onClick={this.showForm}>
+        <Icon name='comment alternate outline' />
+          Write a review
+        </Button>
         {this.renderForm()}
-        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '400px', marginTop: '30px' }}>
-          <Card.Group>
+        <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '30px' }}>
+          <Card.Group itemsPerRow={3}>
             {this.displayReviews()}
           </Card.Group>
         </div>

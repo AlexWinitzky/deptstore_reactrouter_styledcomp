@@ -44,19 +44,20 @@ class DepartmentForm extends React.Component {
   render() {
     const { name } = this.state
     return (
-      <Container style={{marginTop: "100px"}}>
+      <Container style={{ marginTop: "100px" }}>
         <Form onSubmit={this.handleSubmit}>
           <input
             name="name"
             placeholder="Department Name"
+            required
             value={name}
             onChange={this.handleChange}
-            required
           />
           <Button
+            color='green'
             style={{
               marginTop: "30px",
-              }}>Submit</Button>
+            }}>Submit</Button>
         </Form>
       </Container>
     )

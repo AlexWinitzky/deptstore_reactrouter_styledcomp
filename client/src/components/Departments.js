@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Container, Button, Card, Grid, Image, } from 'semantic-ui-react';
+import { Container, Button, Card, Grid, Image, Icon, } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 
@@ -56,19 +56,13 @@ class Departments extends React.Component {
   render() {
     return (
       <Page>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-          height: '500px',
-          border: '1px solid black',
-        }}>
-          <Image src={require('../images/worse_amazon.jpg')} alt="logo"/>
-        </div>
         <Container>
           <ButtonStyle>
             <Link to="/departments/new">
-              <Button>Add a Department</Button>
+              <Button inverted color='green'>
+                <Icon name="add" />
+                Add a Department
+              </Button>
             </Link>
           </ButtonStyle>
           <Grid>
@@ -100,7 +94,6 @@ const Page = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-top: 60px;
 `
 const ButtonStyle = styled.div`
   display: flex;

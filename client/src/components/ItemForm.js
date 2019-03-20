@@ -72,7 +72,7 @@ class ItemForm extends React.Component {
             value={image}
             type="hidden"
           />
-          <Button style={{marginTop: "30px"}}>Submit</Button>
+          <Button color='green' style={{marginTop: "30px"}}>Submit</Button>
         </Form>
       </Container>
     )
