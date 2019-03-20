@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 
 class Departments extends React.Component {
-  state = { departments: [], images: [] }
+  state = { departments: [] }
 
   componentDidMount() {
     axios.get("api/departments")
@@ -44,7 +44,7 @@ class Departments extends React.Component {
                   height: '120px',
                   width: '160px',
                 }}
-                src={"https://loremflickr.com/400/400/commerce?randomizer=" + Math.random()}
+                src={"https://loremflickr.com/400/400/commerce?" + Math.random()}
                 alt="Department" />
             </Card.Content>
           </CardStyles>
@@ -56,6 +56,15 @@ class Departments extends React.Component {
   render() {
     return (
       <Page>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          height: '500px',
+          border: '1px solid black',
+        }}>
+          <Image src={require('../images/worse_amazon.jpg')} alt="logo"/>
+        </div>
         <Container>
           <ButtonStyle>
             <Link to="/departments/new">
@@ -90,6 +99,7 @@ const CardGroup = styled(Card.Group)`
 const Page = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   margin-top: 60px;
 `
 const ButtonStyle = styled.div`

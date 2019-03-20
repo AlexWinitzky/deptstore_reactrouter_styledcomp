@@ -9,6 +9,7 @@ import Item from './components/Item';
 import ItemForm from './components/ItemForm';
 import NoMatch from './components/NoMatch';
 import NavBar from './components/NavBar';
+import ReviewForm from './components/ReviewForm';
 
 const App = () => (
   <Fragment>
@@ -23,6 +24,7 @@ const App = () => (
     <Route exact path="/departments/:department_id/items/new" component={ItemForm} />
     <Route exact path="/departments/:department_id/items/:id" component={Item} />
     <Route exact path="/departments/:department_id/items/:id/edit" component={ItemForm} />
+    <Route exact path="/items/:item_id/review/:id/edit" component={ReviewForm} />
     <Route component={NoMatch} />
   </Switch>
   </Fragment>

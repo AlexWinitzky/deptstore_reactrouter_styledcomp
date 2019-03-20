@@ -11,6 +11,7 @@ class DepartmentForm extends React.Component {
     if (id)
       axios.get(`/api/departments/${id}`)
         .then(res => {
+          debugger
           this.setState({ name: res.data.name })
         })
         .catch(err => {

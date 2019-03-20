@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Button, Container, Card, Image, Grid } from 'semantic-ui-react';
 
+
 class Department extends React.Component {
   state = { department: {}, items: [] }
 
@@ -24,11 +25,11 @@ class Department extends React.Component {
 
   listItems = () => {
     const { id, } = this.props.match.params
-    return this.state.items.map(i => (
+    return this.state.items.map( i => (
       <div style={{ marginTop: '40px', padding: '20px', border: '1px solid black' }}>
         <Link to={`/departments/${id}/items/${i.id}`}>
           <Card style={{ height: "120px", width: '200px' }}>
-            <li>{i.name}</li>
+            <p>{i.name}</p>
             <Card.Description>${i.price}</Card.Description>
             <div
               style={{
@@ -42,7 +43,7 @@ class Department extends React.Component {
                   height: '60px',
                   width: '60px',
                 }}
-                src={"https://loremflickr.com/400/400/products?randomizer=" + Math.random()} alt="Product" />
+                src={"https://loremflickr.com/400/400/products?" + Math.random()} alt="Product" />
             </div>
           </Card>
         </Link>
@@ -61,8 +62,11 @@ class Department extends React.Component {
   render() {
     const { id, name } = this.state.department
     return (
-      <Container style={{ paddingTop: '20px' }}>
+      <Container style={{ paddingTop: '20px', marginBottom: '40px' }}>
         <h1>{name}</h1>
+        <Link to={'/departments'}>
+        <Button style={{marginBottom: '20px'}}>Go Back</Button>
+        </Link>
         <div>
           <Link to={`/departments/${id}/edit`}>
             <Button>Update Department</Button>

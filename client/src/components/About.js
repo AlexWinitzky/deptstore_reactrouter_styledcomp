@@ -1,6 +1,7 @@
 import React from 'react';
 import CenterText from './Styles'
 
+
 const About = () => (
   <>
   <CenterText tCenter="left">These are elements using the same styled component as the Home route.</CenterText>

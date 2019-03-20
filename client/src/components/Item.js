@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link, } from 'react-router-dom';
 import { Button, Container, Image } from 'semantic-ui-react';
+import Reviews from './Reviews';
 
 class Item extends React.Component {
   state = { item: {} }
@@ -29,9 +30,12 @@ class Item extends React.Component {
     const { match: { params: { id, department_id } } } = this.props
     const { name, description, price } = this.state.item
     return (
-      <Container>
+      <Container style={{marginBottom: '40px'}}>
+        <Link to={`/departments/${department_id}`}>
+          <Button>Go Back</Button>
+        </Link>
         <h1>{name}</h1>
-        <Image src={"https://loremflickr.com/400/400/products?randomizer=" + Math.random()} alt="Product" />
+        <Image src={"https://loremflickr.com/400/400/products?" + Math.random()} alt="Product" />
         <h2>${price}</h2>
         <h3>Product Description:</h3>
         <p>{description}</p>
@@ -39,6 +43,7 @@ class Item extends React.Component {
           <Button>Update Item</Button>
         </Link>
         <Button onClick={this.handleDelete}>Delete Item</Button>
+        <Reviews id={id}/>
       </Container>
     )
   }

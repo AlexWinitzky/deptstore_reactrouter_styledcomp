@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink, } from "react-router-dom";
 import { Menu, Segment } from 'semantic-ui-react';
 
+
 const NavBar = () => (
   <Segment inverted>
     <Menu inverted pointing secondary>
@@ -27,3 +28,4 @@ const NavBar = () => (
 )
 
 export default NavBar
+
