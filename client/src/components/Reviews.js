@@ -49,7 +49,7 @@ class Reviews extends React.Component {
 
 
   displayReviews = () => {
-    const item_id = this.props.id
+    const { item_id } = this.props.id
     return this.state.reviews.map(r => (
       <Card fluid>
         <Card.Content>
@@ -71,7 +71,13 @@ class Reviews extends React.Component {
             <Button icon color="red" onClick={() => this.deleteReview(r.id)}>
               <Icon name="trash" />
             </Button>
-            <Link to={`/items/${item_id}/review/${r.id}/edit`}>
+            <Link to={{
+              pathname: `/review/${r.id}/edit`,
+              state: {
+                item_id: this.props.id,
+              }
+            }}
+            >
               <Button icon color="blue">
                 <Icon name="edit" />
               </Button>
@@ -88,7 +94,7 @@ class Reviews extends React.Component {
         <hr />
         <h1>Product Reviews</h1>
         <Button color='teal' onClick={this.showForm}>
-        <Icon name='comment alternate outline' />
+          <Icon name='comment alternate outline' />
           Write a review
         </Button>
         {this.renderForm()}

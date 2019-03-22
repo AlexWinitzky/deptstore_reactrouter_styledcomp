@@ -30,7 +30,9 @@ class Department extends React.Component {
         <Link to={`/departments/${id}/items/${i.id}`}>
           <Card style={{ height: "300px", width: '300px', textAlign: 'center' }}>
             <h3>{i.name}</h3>
-            <Card.Description>${i.price}</Card.Description>
+            <Card.Description>
+              ${i.price}
+            </Card.Description>
             <div
               style={{
                 display: 'flex',
@@ -63,31 +65,28 @@ class Department extends React.Component {
   render() {
     const { id, name } = this.state.department
     return (
-      <Container style={{ paddingTop: '20px', marginBottom: '40px' }}>
-        <h1>{name}</h1>
+      <Container style={{ marginBottom: '40px' }}>
         <Link to={'/departments'}>
-          <Button color="black" style={{ marginBottom: '20px' }}>
+          <Button color="black">
             <Icon name='arrow alternate circle left outline' />
             Go Back
           </Button>
         </Link>
+        <h1 style={{ marginTop: '30px' }}>{name}</h1>
         <div>
           <Link to={`/departments/${id}/edit`}>
             <Button inverted color='blue'>
               <Icon name='pencil' />
-              {' '}
               Update Department
               </Button>
           </Link>
           <Button inverted onClick={this.handleDelete} color='red'>
             <Icon name='trash' />
-            {' '}
             Remove Department
             </Button>
           <Link to={`/departments/${id}/items/new`}>
             <Button inverted color='green'>
               <Icon name='add' />
-              {' '}
               Add an Item
             </Button>
           </Link>

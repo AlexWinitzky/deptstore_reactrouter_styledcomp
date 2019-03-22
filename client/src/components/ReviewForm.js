@@ -6,12 +6,13 @@ class ReviewForm extends React.Component {
   state = { title: '', body: '', author: '', rating: 0, image: '' }
 
   componentDidMount() {
-    if (!this.props.add) {
-    const { id, item_id } = this.props.match.params
-      axios.get(`/api/items/${item_id}/reviews/${id}`)
+      if (this.props.edit) {
+      axios.get(`/api/items/${this.props.location.state.item_id}/reviews/${this.props.match.params.id}`)
         .then(res => {
-          const { title, body, author, rating, image } = res.data
-          this.setState({ title, body, author, rating, image })
+          // the long way
+          // const { title, body, author, rating, image } = res.data
+          // this.setState({ title, body, author, rating, image })
+          this.setState({ ...res.data })
         })
       }
   }
@@ -72,8 +73,9 @@ class ReviewForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    if (!this.props.add) {
-      const { match: { params: { id, item_id } } } = this.props
+    if (this.props.edit) {
+      const { match: { params: { id } } } = this.props
+      const { location: { state: { item_id } } } = this.props
       axios.put(`/api/items/${item_id}/reviews/${id}`, { ...this.state })
         .then(res => {
           this.props.history.goBack()

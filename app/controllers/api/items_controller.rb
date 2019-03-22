@@ -11,13 +11,13 @@ class Api::ItemsController < ApplicationController
   end
 
   def create
-    @item = @department.items.new(item_params)
+    item = @department.items.new(item_params)
 
-      if @item.save
-        render json: @item
-      else
-        render json: @item.errors, status: 422
-      end
+    if item.save
+      render json: item
+    else
+      render json: item.errors, status: 422
+    end
   end
 
   def update

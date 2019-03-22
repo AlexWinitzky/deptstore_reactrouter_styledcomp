@@ -11,7 +11,6 @@ class DepartmentForm extends React.Component {
     if (id)
       axios.get(`/api/departments/${id}`)
         .then(res => {
-          debugger
           this.setState({ name: res.data.name })
         })
         .catch(err => {
@@ -27,17 +26,13 @@ class DepartmentForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const department = { ...this.state }
-    const { match: { params: { id } } } = this.props
+    const { match: { params: { id } }, history: { push } } = this.props
     if (id) {
       axios.put(`/api/departments/${id}`, department)
-        .then(res => {
-          this.props.history.push(`/departments/${id}`)
-        })
+        .then(res => push(`/departments/${id}`))
     } else {
       axios.post(`/api/departments`, department)
-        .then(res => {
-          this.props.history.push("/departments")
-        })
+        .then(res => push(`/departments/${res.data.id}`))
     }
   }
 
