@@ -3,18 +3,18 @@ import { Form, Rating, Dropdown } from "semantic-ui-react";
 import axios from "axios";
 
 class ReviewForm extends React.Component {
-  state = { title: '', body: '', author: '', rating: 0, image: '' }
+  state = { title: '', body: '', author: '', rating: 0, image: '', }
 
   componentDidMount() {
-      if (this.props.edit) {
-      axios.get(`/api/items/${this.props.location.state.item_id}/reviews/${this.props.match.params.id}`)
+    if (this.props.edit) {
+      axios.get(`/api/items/${this.props.item_id}/reviews/${this.props.id}`)
         .then(res => {
           // the long way
           // const { title, body, author, rating, image } = res.data
           // this.setState({ title, body, author, rating, image })
           this.setState({ ...res.data })
         })
-      }
+    }
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -74,11 +74,11 @@ class ReviewForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     if (this.props.edit) {
-      const { match: { params: { id } } } = this.props
-      const { location: { state: { item_id } } } = this.props
+      const { item_id, id, } = this.props
       axios.put(`/api/items/${item_id}/reviews/${id}`, { ...this.state })
         .then(res => {
-          this.props.history.goBack()
+          this.props.updateReviewsArray(res.data)
+          this.props.toggleEdit()
         })
     } else {
       const { item_id } = this.props
@@ -91,9 +91,8 @@ class ReviewForm extends React.Component {
   render() {
     const { title, body, author, rating } = this.state
     return (
-      <div style={{marginLeft: '100px'}}>
-        {!this.props.add ? <h1>Edit Review</h1> : null}
-        <Form style={{ marginTop: '10px' }} onSubmit={this.handleSubmit}>
+      <div style={{ marginLeft: '100px' }}>
+        <Form style={this.props.edit ? { marginLeft: '-50px' } : { marginTop: '10px', }} onSubmit={this.handleSubmit}>
           <Form.Group width="equal">
             <Rating
               name="rating"
@@ -105,7 +104,7 @@ class ReviewForm extends React.Component {
               onRate={this.handleRating}
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group style={this.props.edit ? { display: 'flex', flexDirection: 'column', flexShrink: 3 } : {}}>
             <Form.Input
               name="title"
               label="Title"
@@ -135,9 +134,16 @@ class ReviewForm extends React.Component {
               control={this.dropdownImageSelect}
             />
           </Form.Group>
-          <Form.Button color='green'>Submit</Form.Button>
+          <div style={{ display: 'flex' }}>
+            <Form.Button color='green'>Submit</Form.Button>
+            {this.props.edit ?
+              <Form.Button color='red' onClick={this.props.toggleEdit}>Cancel</Form.Button>
+              :
+              <Form.Button color='red' onClick={this.props.toggle}>Cancel</Form.Button>
+            }
+          </div>
         </Form>
-      </div>
+      </div >
     )
   }
 }

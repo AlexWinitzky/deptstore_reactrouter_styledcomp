@@ -1,12 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'
-import { Icon, Button, Card, Rating, Image, } from 'semantic-ui-react';
+import { Icon, Button, Card, } from 'semantic-ui-react';
 import ReviewForm from './ReviewForm';
+import Review from './Review';
 
 
 class Reviews extends React.Component {
-  state = { reviews: [], showForm: false }
+  state = { reviews: [], showForm: false, key: 0 }
 
   componentDidMount() {
     const { id } = this.props
@@ -17,6 +17,15 @@ class Reviews extends React.Component {
   }
 
   showForm = () => this.setState({ showForm: !this.state.showForm })
+
+  updateReviewsArray = (data) => {
+    const reviews = this.state.reviews.map(r => {
+      if (r.id === data.id)
+        return data
+      return r
+    })
+    this.setState({ reviews, })
+  }
 
   addReview = (review) => {
     this.setState({ reviews: [review, ...this.state.reviews] })
@@ -49,41 +58,9 @@ class Reviews extends React.Component {
 
 
   displayReviews = () => {
-    const { item_id } = this.props.id
     return this.state.reviews.map(r => (
       <Card fluid>
-        <Card.Content>
-          <Rating
-            rating={r.rating}
-            defaultRating={5}
-            maxRating={5}
-            disabled
-            icon="star"
-            size="massive"
-          />
-        </Card.Content>
-        <Card.Content>
-          <Image size='small' src={r.image} alt="author" />
-          <Card.Header>{r.title}</Card.Header>
-          <Card.Description>{r.body}</Card.Description>
-          <Card.Meta>{r.author}</Card.Meta>
-          <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '10px', width: '100px' }}>
-            <Button icon color="red" onClick={() => this.deleteReview(r.id)}>
-              <Icon name="trash" />
-            </Button>
-            <Link to={{
-              pathname: `/review/${r.id}/edit`,
-              state: {
-                item_id: this.props.id,
-              }
-            }}
-            >
-              <Button icon color="blue">
-                <Icon name="edit" />
-              </Button>
-            </Link>
-          </div>
-        </Card.Content>
+        <Review {...r} deleteReview={this.deleteReview} item_id={this.props.id} updateReviewsArray={this.updateReviewsArray} />
       </Card>
     ))
   }
