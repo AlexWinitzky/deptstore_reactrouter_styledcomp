@@ -1,17 +1,18 @@
-import React from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { Button, Container, Card, Image, Icon, } from 'semantic-ui-react';
+import React from "react"
+import axios from "axios"
+import { Link } from "react-router-dom"
+import { Button, Container, Card, Image, Icon, } from 'semantic-ui-react'
+import DepartmentForm from './DepartmentForm'
 
 
 class Department extends React.Component {
-  state = { department: {}, items: [] }
+  state = { department: {}, items: [], toggle: false }
 
   componentDidMount() {
     const { id } = this.props.match.params
     axios.get(`/api/departments/${id}`)
       .then(res => {
-        this.setState({ department: res.data, });
+        this.setState({ department: res.data, })
       })
 
     axios.get(`/api/departments/${id}/items`)
@@ -23,10 +24,14 @@ class Department extends React.Component {
       })
   }
 
+  toggleForm = () => this.setState({ toggle: !this.state.toggle })
+
+  update = (data) => this.setState({ department: data })
+
   listItems = () => {
     const { id, } = this.props.match.params
     return this.state.items.map(i => (
-      <div style={{ marginTop: '40px', padding: '20px', border: '1px solid black' }}>
+      <div key={i.id} style={{ marginTop: '40px', padding: '20px', border: '1px solid black' }}>
         <Link to={`/departments/${id}/items/${i.id}`}>
           <Card style={{ height: "300px", width: '300px', textAlign: 'center' }}>
             <h3>{i.name}</h3>
@@ -55,7 +60,7 @@ class Department extends React.Component {
   }
 
   handleDelete = () => {
-    const { id } = this.props.match.params;
+    const { id } = this.props.match.params
     axios.delete(`/api/departments/${id}`)
       .then(res => {
         this.props.history.push("/departments")
@@ -63,7 +68,7 @@ class Department extends React.Component {
   }
 
   render() {
-    const { id, name } = this.state.department
+    const { department: { id, name, }, toggle, } = this.state
     return (
       <Container style={{ marginBottom: '40px' }}>
         <Link to={'/departments'}>
@@ -72,28 +77,30 @@ class Department extends React.Component {
             Go Back
           </Button>
         </Link>
-        <h1 style={{ marginTop: '30px' }}>{name}</h1>
-        <div>
-          <Link to={`/departments/${id}/edit`}>
-            <Button inverted color='blue'>
+        {toggle ?
+          <DepartmentForm id={id} toggleForm={this.toggleForm} add={this.add} update={this.update} />
+          :
+          <div>
+            <h1 style={{ marginTop: '30px' }}>{name}</h1>
+            <Button inverted color='blue' onClick={() => this.toggleForm()}>
               <Icon name='pencil' />
-              Update Department
-              </Button>
-          </Link>
-          <Button inverted onClick={this.handleDelete} color='red'>
-            <Icon name='trash' />
-            Remove Department
+              Rename
             </Button>
-          <Link to={`/departments/${id}/items/new`}>
-            <Button inverted color='green'>
-              <Icon name='add' />
-              Add an Item
+            <Button inverted onClick={this.handleDelete} color='red'>
+              <Icon name='trash' />
+              Remove
             </Button>
-          </Link>
-          <Card.Group itemsPerRow={3}>
-            {this.listItems()}
-          </Card.Group>
-        </div>
+            <Link to={`/departments/${id}/items/new`}>
+              <Button inverted color='green'>
+                <Icon name='add' />
+                Add Item
+            </Button>
+            </Link>
+          </div>
+        }
+        <Card.Group itemsPerRow={3}>
+          {this.listItems()}
+        </Card.Group>
       </Container>
     )
   }

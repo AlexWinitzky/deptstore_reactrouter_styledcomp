@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Rating, Dropdown } from "semantic-ui-react";
+import { Form, Rating, Dropdown, Icon, } from "semantic-ui-react";
 import axios from "axios";
 
 class ReviewForm extends React.Component {
@@ -110,6 +110,7 @@ class ReviewForm extends React.Component {
               label="Title"
               placeholder="Title"
               required
+              autoFocus
               value={title}
               onChange={this.handleChange}
             />
@@ -117,7 +118,6 @@ class ReviewForm extends React.Component {
               name="body"
               label="Body"
               placeholder="Body"
-              required
               value={body}
               onChange={this.handleChange}
             />
@@ -125,7 +125,6 @@ class ReviewForm extends React.Component {
               name="author"
               label="Author"
               placeholder="Author"
-              required
               value={author}
               onChange={this.handleChange}
             />
@@ -134,12 +133,18 @@ class ReviewForm extends React.Component {
               control={this.dropdownImageSelect}
             />
           </Form.Group>
-          <div style={{ display: 'flex' }}>
-            <Form.Button color='green'>Submit</Form.Button>
+          <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '10px', width: '100px' }}>
+            <Form.Button icon color='green'>
+              <Icon name='send' />
+            </Form.Button>
             {this.props.edit ?
-              <Form.Button color='red' onClick={this.props.toggleEdit}>Cancel</Form.Button>
+              <Form.Button icon color='red' onClick={this.props.toggleEdit}>
+                <Icon name='cancel' />
+              </Form.Button>
               :
-              <Form.Button color='red' onClick={this.props.toggle}>Cancel</Form.Button>
+              <Form.Button icon color='red' onClick={this.props.toggle}>
+                <Icon name='cancel' />
+              </Form.Button>
             }
           </div>
         </Form>

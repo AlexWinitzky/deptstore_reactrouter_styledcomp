@@ -7,7 +7,7 @@ class DepartmentForm extends React.Component {
   state = { name: '' }
 
   componentDidMount() {
-    const { match: { params: { id } } } = this.props
+    const { id } = this.props
     if (id)
       axios.get(`/api/departments/${id}`)
         .then(res => {
@@ -26,33 +26,49 @@ class DepartmentForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const department = { ...this.state }
-    const { match: { params: { id } }, history: { push } } = this.props
+    const { id, update, toggleForm, } = this.props
     if (id) {
       axios.put(`/api/departments/${id}`, department)
-        .then(res => push(`/departments/${id}`))
+        .then(res => {
+          update(res.data)
+          toggleForm()
+        })
     } else {
-      axios.post(`/api/departments`, department)
-        .then(res => push(`/departments/${res.data.id}`))
+      const { add, toggleForm, } = this.props
+      axios.post('/api/departments', department)
+        .then(res => {
+          add(res.data)
+          toggleForm()
+        })
     }
   }
 
   render() {
     const { name } = this.state
     return (
-      <Container style={{ marginTop: "100px" }}>
+      <Container style={{ marginTop: "30px" }}>
         <Form onSubmit={this.handleSubmit}>
-          <input
+          <Form.Input
             name="name"
             placeholder="Department Name"
             required
+            autoFocus
             value={name}
             onChange={this.handleChange}
           />
           <Button
+            inverted
+            icon='send'
+            content='Submit'
             color='green'
-            style={{
-              marginTop: "30px",
-            }}>Submit</Button>
+          />
+          <Button
+            inverted
+            content='Cancel'
+            color='red'
+            icon='cancel'
+            onClick={() => this.props.toggleForm()}
+          />
         </Form>
       </Container>
     )

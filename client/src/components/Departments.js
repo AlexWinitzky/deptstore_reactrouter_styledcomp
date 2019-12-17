@@ -3,10 +3,11 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Container, Button, Card, Grid, Image, Icon, } from 'semantic-ui-react';
 import styled from 'styled-components';
+import DepartmentForm from './DepartmentForm';
 
 
 class Departments extends React.Component {
-  state = { departments: [] }
+  state = { departments: [], toggle: false }
 
   componentDidMount() {
     axios.get("api/departments")
@@ -16,6 +17,12 @@ class Departments extends React.Component {
       .catch(err => {
         console.log(err.response)
       })
+  }
+
+  toggleForm = () => this.setState({ toggle: !this.state.toggle })
+
+  add = (data) => {
+    this.setState({ departments: [data, ...this.state.departments] })
   }
 
   showDepts = () => {
@@ -38,7 +45,7 @@ class Departments extends React.Component {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                }}>
+              }}>
               <Image
                 style={{
                   height: '120px',
@@ -58,12 +65,18 @@ class Departments extends React.Component {
       <Page>
         <Container>
           <ButtonStyle>
-            <Link to="/departments/new">
-              <Button inverted color='green'>
+            {this.state.toggle ?
+              <div style={{ width: '80%' }}>
+                <DepartmentForm add={this.add} toggleForm={this.toggleForm} />
+              </div>
+              :
+              <Button inverted color='green' onClick={() => this.toggleForm()} style={{
+                borderRadius: '50%',
+              }}>
                 <Icon name="add" />
                 Add a Department
               </Button>
-            </Link>
+            }
           </ButtonStyle>
           <Grid>
             <Grid.Row>
@@ -99,5 +112,6 @@ const ButtonStyle = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
+  height: 160px;
 `
 export default Departments

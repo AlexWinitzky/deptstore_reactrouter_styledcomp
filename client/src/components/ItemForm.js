@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Form, Button, Container } from 'semantic-ui-react';
+import { Form, Container, Icon, } from 'semantic-ui-react';
 
 
 class ItemForm extends React.Component {
@@ -44,35 +44,39 @@ class ItemForm extends React.Component {
   render() {
     const { name, description, price, image } = this.state
     return (
-      <Container style={{marginTop: "100px"}}>
+      <Container style={{ marginTop: "100px" }}>
         <Form onSubmit={this.handleSubmit}>
-          <input
+          <Form.Input
             name="name"
             placeholder="Item Name"
+            autoFocus
             value={name}
             onChange={this.handleChange}
             required
           />
-          <input
+          <Form.Input
             name="description"
             placeholder="Product Description"
             value={description}
             onChange={this.handleChange}
             required
           />
-          <input
+          <Form.Input
             name="price"
             placeholder="Price"
             value={price}
             onChange={this.handleChange}
             required
           />
-          <input
+          <Form.Input
             name="image"
             value={image}
             type="hidden"
           />
-          <Button color='green' style={{marginTop: "30px"}}>Submit</Button>
+          <Form.Button inverted color='green'>
+            <Icon name='send' />
+            Submit
+          </Form.Button>
         </Form>
       </Container>
     )
