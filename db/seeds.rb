@@ -1,16 +1,19 @@
-15.times do
+
+9.times do
+  item_num = rand(1..5)
   d = Department.create(
     name: Faker::Commerce.department,
     image: '',
   )
-  10.times do
+  item_num.times do
+    review_num = rand(1..5)
     i = d.items.create(
       name: Faker::Commerce.product_name,
       description: Faker::Lorem.paragraph_by_chars(256, false),
       price: Faker::Commerce.price(range = 0..1000.00, as_string = false),
       image: '',
       )
-    10.times do
+    review_num.times do
       i.reviews.create(
         title: Faker::Cannabis.health_benefit,
         body: Faker::FamousLastWords.last_words,
@@ -22,4 +25,4 @@
   end
 end
 
-puts "Database records successfully created: 15 depts, 21 items/dept and 15 reviews/item."
+puts "Database seeded successfully."

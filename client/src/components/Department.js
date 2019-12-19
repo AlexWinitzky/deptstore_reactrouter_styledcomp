@@ -1,12 +1,13 @@
 import React from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
-import { Button, Container, Card, Image, Icon, } from 'semantic-ui-react'
+import { Button, Container, Card, Image, Icon, Modal, } from 'semantic-ui-react'
 import DepartmentForm from './DepartmentForm'
+import ItemForm from './ItemForm'
 
 
 class Department extends React.Component {
-  state = { department: {}, items: [], toggle: false }
+  state = { department: {}, items: [], toggle: false, open: false, }
 
   componentDidMount() {
     const { id } = this.props.match.params
@@ -26,7 +27,13 @@ class Department extends React.Component {
 
   toggleForm = () => this.setState({ toggle: !this.state.toggle })
 
+  showModal = () => this.setState({ open: !this.state.open })
+
   update = (data) => this.setState({ department: data })
+
+  addItem = (item) => {
+    this.setState({ items: [item, ...this.state.items] })
+  }
 
   listItems = () => {
     const { id, } = this.props.match.params
@@ -59,6 +66,20 @@ class Department extends React.Component {
     ))
   }
 
+  itemModal = () => {
+    return (
+      <Modal
+        open={this.state.open}
+        onClose={() => this.showModal()}
+      >
+        <Modal.Header>Add A New Item</Modal.Header>
+        <Modal.Content>
+          <ItemForm close={this.showModal} add={this.addItem} department_id={this.state.department.id} />
+        </Modal.Content>
+      </Modal>
+    )
+  }
+
   handleDelete = () => {
     const { id } = this.props.match.params
     axios.delete(`/api/departments/${id}`)
@@ -71,6 +92,7 @@ class Department extends React.Component {
     const { department: { id, name, }, toggle, } = this.state
     return (
       <Container style={{ marginBottom: '40px' }}>
+        {this.itemModal()}
         <Link to={'/departments'}>
           <Button color="black">
             <Icon name='arrow alternate circle left outline' />
@@ -90,12 +112,10 @@ class Department extends React.Component {
               <Icon name='trash' />
               Remove
             </Button>
-            <Link to={`/departments/${id}/items/new`}>
-              <Button inverted color='green'>
-                <Icon name='add' />
-                Add Item
+            <Button inverted color='green' onClick={() => this.showModal()}>
+              <Icon name='add' />
+              Add Item
             </Button>
-            </Link>
           </div>
         }
         <Card.Group itemsPerRow={3}>

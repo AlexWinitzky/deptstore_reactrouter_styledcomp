@@ -49,6 +49,5 @@ const Review = props => {
 
 const CustomSegment = styled(Segment)`
   height: 320px;
-  width: 360px;
 `
 export default Review

@@ -7,7 +7,7 @@ class ItemForm extends React.Component {
   state = { name: '', description: '', price: '', image: '' }
 
   componentDidMount() {
-    const { match: { params: { id, department_id } } } = this.props
+    const { id, department_id, } = this.props
     if (id && department_id)
       axios.get(`/api/departments/${department_id}/items/${id}`)
         .then(res => {
@@ -27,24 +27,25 @@ class ItemForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const item = { ...this.state }
-    const { match: { params: { id, department_id } } } = this.props
+    const { id, department_id, } = this.props
     if (id && department_id) {
       axios.put(`/api/departments/${department_id}/items/${id}`, item)
         .then(res => {
-          this.props.history.push(`/departments/${department_id}/items/${id}`)
+          this.props.update(res.data)
         })
     } else {
       axios.post(`/api/departments/${department_id}/items`, item)
         .then(res => {
-          this.props.history.push(`/departments/${department_id}`)
+          this.props.add(res.data)
         })
     }
+    this.props.close()
   }
 
   render() {
     const { name, description, price, image } = this.state
     return (
-      <Container style={{ marginTop: "100px" }}>
+      <Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Input
             name="name"

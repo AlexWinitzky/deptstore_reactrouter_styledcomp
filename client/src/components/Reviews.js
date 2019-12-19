@@ -50,16 +50,17 @@ class Reviews extends React.Component {
       .then(res => {
         const reviews = this.state.reviews.filter(r => {
           if (r.id !== r_id)
-            return r;
+            return r
+          return null
         })
-        this.setState({ reviews, });
+        this.setState({ reviews, })
       })
   }
 
 
   displayReviews = () => {
     return this.state.reviews.map(r => (
-      <Card fluid>
+      <Card fluid style={{ width: '320px', height: '320px' }}>
         <Review {...r} deleteReview={this.deleteReview} item_id={this.props.id} updateReviewsArray={this.updateReviewsArray} />
       </Card>
     ))

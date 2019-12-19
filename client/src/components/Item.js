@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, } from 'react-router-dom';
-import { Button, Container, Image, Icon, } from 'semantic-ui-react';
+import { Button, Container, Image, Icon, Modal, } from 'semantic-ui-react';
 import Reviews from './Reviews';
+import ItemForm from './ItemForm'
 
 class Item extends React.Component {
-  state = { item: {} }
+  state = { item: {}, open: false }
 
   componentDidMount() {
     const { match: { params: { id, department_id } } } = this.props
@@ -16,6 +17,28 @@ class Item extends React.Component {
       .catch(err => {
         console.log(err.response)
       })
+  }
+
+  showModal = () => this.setState({ open: !this.state.open })
+
+  updateItem = (item) => {
+    this.setState({ item, })
+  }
+
+  itemModal = () => {
+    const { match: { params: { id, department_id } } } = this.props
+    debugger
+    return (
+      <Modal
+        open={this.state.open}
+        onClose={() => this.showModal()}
+      >
+        <Modal.Header>Update This Item</Modal.Header>
+        <Modal.Content>
+          <ItemForm id={id} department_id={department_id} close={this.showModal} update={this.updateItem} />
+        </Modal.Content>
+      </Modal>
+    )
   }
 
   handleDelete = () => {
@@ -31,6 +54,7 @@ class Item extends React.Component {
     const { name, description, price } = this.state.item
     return (
       <Container style={{ marginBottom: '40px' }}>
+        {this.itemModal()}
         <Link to={`/departments/${department_id}`}>
           <Button color='black'>
             <Icon name='arrow alternate circle left outline' />
@@ -42,12 +66,10 @@ class Item extends React.Component {
         <h2>${price}</h2>
         <h3>Product Description:</h3>
         <p>{description}</p>
-        <Link to={`/departments/${department_id}/items/${id}/edit`}>
-          <Button inverted color="blue">
-            <Icon name='pencil' />
-            Update Item
+        <Button inverted color="blue" onClick={() => this.showModal()}>
+          <Icon name='pencil' />
+          Update Item
             </Button>
-        </Link>
         <Button inverted color='red' onClick={this.handleDelete}>
           <Icon name='trash' />
           Delete Item
