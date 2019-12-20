@@ -27,7 +27,6 @@ class Item extends React.Component {
 
   itemModal = () => {
     const { match: { params: { id, department_id } } } = this.props
-    debugger
     return (
       <Modal
         open={this.state.open}

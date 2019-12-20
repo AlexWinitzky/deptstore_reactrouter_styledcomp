@@ -28,7 +28,7 @@ class Departments extends React.Component {
   showDepts = () => {
     return this.state.departments.map(d => (
       <Link to={`departments/${d.id}`}>
-        <div style={{ padding: '20px', border: '2px solid black' }}>
+        <div style={{ padding: '60px', }}>
           <CardStyles>
             <Card.Header
               style={{
@@ -37,6 +37,8 @@ class Departments extends React.Component {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                backgroundColor: '#f0efee',
+                color: '#537a0d',
               }}>
               {d.name}
             </Card.Header>
@@ -45,6 +47,7 @@ class Departments extends React.Component {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                backgroundColor: '#f0efee',
               }}>
               <Image
                 style={{
@@ -78,16 +81,16 @@ class Departments extends React.Component {
               </Button>
             }
           </ButtonStyle>
-          <Grid>
-            <Grid.Row>
-              <Grid.Column relaxed columns={4}>
-                <CardGroup>
-                  {this.showDepts()}
-                </CardGroup>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
         </Container>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column relaxed columns={4}>
+              <CardGroup>
+                {this.showDepts()}
+              </CardGroup>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Page>
     )
   }
@@ -96,10 +99,8 @@ class Departments extends React.Component {
 const CardStyles = styled(Card)`
   height: 200px;
   width: 180px;
-`
-
+  `
 const CardGroup = styled(Card.Group)`
-  padding: 40px;
   display: flex;
   justify-content: center;
 `

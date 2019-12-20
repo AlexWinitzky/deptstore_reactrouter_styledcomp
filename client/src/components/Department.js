@@ -1,9 +1,10 @@
 import React from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
-import { Button, Container, Card, Image, Icon, Modal, } from 'semantic-ui-react'
+import { Button, Container, Card, Image, Icon, Modal, Grid, } from 'semantic-ui-react'
 import DepartmentForm from './DepartmentForm'
 import ItemForm from './ItemForm'
+import styled from 'styled-components'
 
 
 class Department extends React.Component {
@@ -38,18 +39,19 @@ class Department extends React.Component {
   listItems = () => {
     const { id, } = this.props.match.params
     return this.state.items.map(i => (
-      <div key={i.id} style={{ marginTop: '40px', padding: '20px', border: '1px solid black' }}>
+      <div key={i.id} style={{ padding: '40px' }}>
         <Link to={`/departments/${id}/items/${i.id}`}>
-          <Card style={{ height: "300px", width: '300px', textAlign: 'center' }}>
-            <h3>{i.name}</h3>
-            <Card.Description>
-              ${i.price}
-            </Card.Description>
+          <Card style={{ height: "300px", width: '300px', textAlign: 'center', backgroundColor: '#f0efee', }}>
+            <Card.Header style={{
+              fontSize: '20px',
+              color: '#537a0d',
+            }}>{i.name}</Card.Header>
+            <Card.Description style={{ backgroundColor: '#f0efee', }}>${i.price}</Card.Description>
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                alignContent: 'center',
+                alignItems: 'center',
                 marginTop: '20px',
               }}
             >
@@ -91,39 +93,64 @@ class Department extends React.Component {
   render() {
     const { department: { id, name, }, toggle, } = this.state
     return (
-      <Container style={{ marginBottom: '40px' }}>
-        {this.itemModal()}
-        <Link to={'/departments'}>
-          <Button color="black">
-            <Icon name='arrow alternate circle left outline' />
-            Go Back
+      <Page>
+        <Container style={{ marginBottom: '40px' }}>
+          {this.itemModal()}
+          <Link to={'/departments'}>
+            <Button color="black">
+              <Icon name='arrow alternate circle left outline' />
+              Go Back
           </Button>
-        </Link>
-        {toggle ?
-          <DepartmentForm id={id} toggleForm={this.toggleForm} add={this.add} update={this.update} />
-          :
-          <div>
-            <h1 style={{ marginTop: '30px' }}>{name}</h1>
-            <Button inverted color='blue' onClick={() => this.toggleForm()}>
-              <Icon name='pencil' />
-              Rename
+          </Link>
+          {toggle ?
+            <DepartmentForm id={id} toggleForm={this.toggleForm} add={this.add} update={this.update} />
+            :
+            <div>
+              <h1 style={{ marginTop: '30px' }}>{name}</h1>
+              <Button inverted color='blue' onClick={() => this.toggleForm()}>
+                <Icon name='pencil' />
+                Rename
             </Button>
-            <Button inverted onClick={this.handleDelete} color='red'>
-              <Icon name='trash' />
-              Remove
+              <Button inverted onClick={this.handleDelete} color='red'>
+                <Icon name='trash' />
+                Remove
             </Button>
-            <Button inverted color='green' onClick={() => this.showModal()}>
-              <Icon name='add' />
-              Add Item
+              <Button inverted color='green' onClick={() => this.showModal()}>
+                <Icon name='add' />
+                Add Item
             </Button>
-          </div>
+            </div>
+          }
+        </Container>
+        {
+          this.state.items.length < 1 ?
+            <Container>
+              <h1>This department doesn't have any items.</h1>
+            </Container>
+            :
+            <Grid>
+              <Grid.Row>
+                <Grid.Column relaxed columns={4}>
+                  <CardGroup>
+                    {this.listItems()}
+                  </CardGroup>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
         }
-        <Card.Group itemsPerRow={3}>
-          {this.listItems()}
-        </Card.Group>
-      </Container>
+      </Page>
     )
   }
 }
+
+const Page = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`
+const CardGroup = styled(Card.Group)`
+  display: flex;
+  justify-content: center;
+`
 
 export default Department
