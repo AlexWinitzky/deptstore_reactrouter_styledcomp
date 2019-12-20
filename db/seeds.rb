@@ -6,7 +6,7 @@
     image: '',
   )
   item_num.times do
-    review_num = rand(1..5)
+    review_num = rand(0..5)
     i = d.items.create(
       name: Faker::Commerce.product_name,
       description: Faker::Lorem.paragraph_by_chars(256, false),
