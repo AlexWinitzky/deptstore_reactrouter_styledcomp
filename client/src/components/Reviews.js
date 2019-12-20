@@ -1,9 +1,8 @@
-import React from 'react';
-import axios from 'axios';
-import { Icon, Button, Card, } from 'semantic-ui-react';
-import ReviewForm from './ReviewForm';
-import Review from './Review';
-
+import React from 'react'
+import axios from 'axios'
+import { Icon, Button, Card, } from 'semantic-ui-react'
+import ReviewForm from './ReviewForm'
+import Review from './Review'
 
 class Reviews extends React.Component {
   state = { reviews: [], showForm: false, key: 0 }
@@ -33,7 +32,7 @@ class Reviews extends React.Component {
 
   renderForm = () => {
     const { showForm } = this.state
-    if (showForm)
+    if (showForm) {
       return (
         <ReviewForm
           add
@@ -42,6 +41,11 @@ class Reviews extends React.Component {
           toggle={this.showForm}
         />
       )
+    } else if (!showForm && this.state.reviews.length < 1) {
+      return (
+        <h1>This product doesn't have any reviews.</h1>
+      )
+    }
     return null
   }
 
@@ -85,5 +89,6 @@ class Reviews extends React.Component {
     )
   }
 }
+
 
 export default Reviews
